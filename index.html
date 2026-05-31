@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baiyu Chen · Academic CV</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0d;
+      --surface:   #161616;
+      --border:    #2a2a2a;
+      --text:      #e8e8e8;
+      --muted:     #888;
+      --accent:    #4f8ef7;
+      --accent-dim:#1a2f5a;
+      --success:   #3ecf8e;
+      --warning:   #f5a623;
+      --tag-bg:    #1f1f1f;
+      --tag-border:#333;
+      --pill-granted-bg: #0d2e1f;
+      --pill-granted: #3ecf8e;
+      --pill-pending-bg: #2e1f00;
+      --pill-pending: #f5a623;
+      --theme-transition: background .2s, color .2s, border-color .2s;
+    }
+
+    body.light {
+      --bg:        #f5f5f5;
+      --surface:   #ffffff;
+      --border:    #e0e0e0;
+      --text:      #111111;
+      --muted:     #666666;
+      --accent:    #2563eb;
+      --accent-dim:#dbeafe;
+      --success:   #16a34a;
+      --warning:   #d97706;
+      --tag-bg:    #f0f0f0;
+      --tag-border:#d4d4d4;
+      --pill-granted-bg: #dcfce7;
+      --pill-granted: #16a34a;
+      --pill-pending-bg: #fef3c7;
+      --pill-pending: #d97706;
+    }
+
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; transition: background .25s, color .25s; }
+    body *, body *::before, body *::after { transition: background-color .25s, border-color .25s, color .25s; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Language toggle ── */
+    .lang-zh { display: none; }
+    .lang-zh-block { display: none; }
+    body.zh .lang-en { display: none; }
+    body.zh .lang-en-block { display: none; }
+    body.zh .lang-zh { display: inline; }
+    body.zh .lang-zh-block { display: block; }
+
+    /* ── Layout ── */
+    .page { max-width: 880px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* ── Toolbar (fixed top-right) ── */
+    .toolbar { position: fixed; top: 18px; right: 24px; display: flex; gap: 8px; z-index: 100; }
+    .lang-btn, .theme-btn {
+      background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+      font-size: 13px; padding: 5px 12px; border-radius: 99px; cursor: pointer;
+      transition: background .2s, border-color .15s, color .15s;
+      display: flex; align-items: center; gap: 6px; line-height: 1;
+    }
+    .lang-btn:hover, .theme-btn:hover { color: var(--text); border-color: var(--accent); }
+    .theme-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    /* Sun visible in dark mode, Moon in light mode */
+    .icon-sun  { display: block; }
+    .icon-moon { display: none; }
+    body.light .icon-sun  { display: none; }
+    body.light .icon-moon { display: block; }
+
+    /* ── Highlight list ── */
+    .highlight-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+    .highlight-item { display: flex; gap: 14px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+    .highlight-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .highlight-icon svg { width: 18px; height: 18px; }
+    .highlight-body { flex: 1; min-width: 0; }
+    .highlight-title { font-size: 13.5px; font-weight: 600; margin-bottom: 3px; line-height: 1.4; }
+    .highlight-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Education timeline ── */
+    .edu-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 4px; padding-left: 10px; border-left: 2px solid var(--border); }
+    .edu-item { display: flex; gap: 14px; padding: 12px 0; position: relative; }
+    .edu-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; margin-left: -16px; }
+    .edu-body { flex: 1; }
+    .edu-title { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; margin-bottom: 3px; flex-wrap: wrap; }
+    .edu-sub { font-size: 12.5px; color: var(--muted); }
+
+    /* ── Tab-link button (Details →) ── */
+    .tab-link-btn { background: none; border: none; color: var(--accent); font-size: 12px; cursor: pointer; padding: 0; margin-left: auto; white-space: nowrap; }
+    .tab-link-btn:hover { text-decoration: underline; }
+
+    /* ── Skills collapsible ── */
+    .skills-details { border-top: 1px solid var(--border); margin: 8px 0 0; }
+    .skills-details summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 6px; padding: 14px 0; font-size: 13px; color: var(--muted); user-select: none; }
+    .skills-details summary::-webkit-details-marker { display: none; }
+    .skills-details summary:hover { color: var(--text); }
+    .skills-details[open] summary svg { transform: rotate(180deg); }
+
+    /* ── Header ── */
+    .header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+    .header-left { flex: 1 1 360px; min-width: 0; }
+    .header-left h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .header-left .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 4px; }
+    .header-right { text-align: right; font-size: 13px; color: var(--muted); line-height: 1.8; flex-shrink: 0; margin-left: auto; padding-top: 7px; }
+
+    /* ── Stats strip ── */
+    .stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 28px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 12px; text-align: center; }
+    .stat .value { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+    .stat .label { font-size: 11px; color: var(--muted); line-height: 1.3; }
+
+    /* ── Tags ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 28px; }
+    .tag { background: var(--tag-bg); border: 1px solid var(--tag-border); color: var(--muted); font-size: 12px; padding: 3px 10px; border-radius: 99px; }
+
+    /* ── Nav ── */
+    nav { display: flex; gap: 6px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 32px; }
+    nav button { background: none; border: 1px solid transparent; color: var(--muted); font-size: 13px; padding: 5px 14px; border-radius: 99px; cursor: pointer; transition: all .15s; }
+    nav button:hover { color: var(--text); border-color: var(--border); }
+    nav button.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+    /* ── Sections ── */
+    .section { display: none; }
+    .section.visible { display: block; }
+
+    h2 { font-size: 17px; font-weight: 600; margin-bottom: 14px; margin-top: 32px; color: var(--text); }
+    h2:first-child { margin-top: 0; }
+    h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+
+    /* ── Cards ── */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 500; }
+    .card-body { padding: 14px 16px; }
+
+    /* ── Pills ── */
+    .pill { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 99px; border: 1px solid; white-space: nowrap; flex-shrink: 0; }
+    .pill-granted { background: var(--pill-granted-bg); border-color: var(--success); color: var(--success); }
+    .pill-pending  { background: var(--pill-pending-bg); border-color: var(--warning); color: var(--warning); }
+    .pill-info     { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+    .pill-neutral  { background: var(--tag-bg); border-color: var(--tag-border); color: var(--muted); }
+    .pill-open     { background: var(--pill-granted-bg); border-color: var(--success); color: var(--success); }
+
+    /* ── Tables ── */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; color: var(--muted); font-weight: 500; padding: 7px 10px; border-bottom: 1px solid var(--border); font-size: 12px; }
+    td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+    .meta-table td:first-child { color: var(--muted); width: 160px; padding: 5px 0; vertical-align: top; }
+    .meta-table td:last-child  { padding: 5px 0 5px 12px; }
+
+    /* ── Callout ── */
+    .callout { border: 1px solid var(--border); border-left: 3px solid var(--accent); background: var(--accent-dim); border-radius: 6px; padding: 10px 14px; font-size: 13px; color: var(--muted); margin-top: 12px; }
+    .callout strong { color: var(--text); }
+
+    /* ── Two-col ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .skill-group { margin-bottom: 16px; }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+    .doi-row { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+    strong { font-weight: 600; }
+    .muted { color: var(--muted); }
+
+    footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); text-align: center; }
+
+    @media (max-width: 640px) {
+      .stats { grid-template-columns: repeat(3, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+      .header { flex-direction: column; justify-content: flex-start; gap: 10px; }
+      .header-left { flex: none; width: 100%; }
+      .header-right { text-align: left; margin-left: 0; padding-top: 0; }
+      .toolbar { top: 12px; right: 12px; }
+    }
+  </style>
+</head>
+<body class="light">
+
+<!-- ── TOOLBAR ── -->
+<div class="toolbar">
+  <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" aria-label="Toggle theme">
+    <!-- Sun: visible in dark mode (click → go light) -->
+    <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+    <span class="icon-sun" style="font-size:12px"></span>
+    <!-- Moon: visible in light mode (click → go dark) -->
+    <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+    <span class="icon-moon" style="font-size:12px"></span>
+  </button>
+  <button class="lang-btn" onclick="toggleLang(this)">
+    <span class="lang-en">中文</span>
+    <span class="lang-zh">English</span>
+  </button>
+</div>
+
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <div class="header-left">
+      <h1>
+        <span class="lang-en">Chen Baiyu &nbsp;<span style="color:var(--muted);font-weight:400;font-size:20px">陈柏聿</span></span>
+        <span class="lang-zh">陈柏聿 &nbsp;<span style="color:var(--muted);font-weight:400;font-size:20px">Chen Baiyu</span></span>
+      </h1>
+      <p class="subtitle" style="font-size:12.5px">
+        <span class="lang-en">Passport name: <strong style="color:var(--text);font-weight:600">CHENBOYU</strong> &nbsp;·&nbsp; publications &amp; ORCID under "Baiyu Chen"</span>
+        <span class="lang-zh">证件英文名：<strong style="color:var(--text);font-weight:600">CHENBOYU</strong> &nbsp;·&nbsp; 学术成果与 ORCID 统一署名 "Baiyu Chen"</span>
+      </p>
+      <p class="subtitle">
+        <span class="lang-en">Undergraduate Researcher · School of Economics and Management, Minnan University of Science and Technology</span>
+        <span class="lang-zh">本科生科研人员 · 闽南理工学院 经济管理学院</span>
+      </p>
+      <p class="subtitle">
+        <span class="lang-en">Financial Engineering · 2022 – Present &nbsp;|&nbsp; Exchange: TAR UMT, Kuala Lumpur · Jan – May 2026</span>
+        <span class="lang-zh">金融工程 · 2022 年至今 &nbsp;|&nbsp; 交换：东姑阿都拉曼管理及工艺大学，吉隆坡 · 2026.01–05</span>
+      </p>
+    </div>
+    <div class="header-right">
+      <div>2295070968@qq.com</div>
+      <div>+86 13779960135</div>
+      <div><a href="https://orcid.org/0009-0003-7841-3112" target="_blank">ORCID: 0009-0003-7841-3112</a></div>
+    </div>
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="stats">
+    <div class="stat">
+      <div class="value">2</div>
+      <div class="label"><span class="lang-en">ACM Papers</span><span class="lang-zh">ACM 论文</span></div>
+    </div>
+    <div class="stat">
+      <div class="value">2</div>
+      <div class="label"><span class="lang-en">Patents Granted</span><span class="lang-zh">已授权专利</span></div>
+    </div>
+    <div class="stat">
+      <div class="value" style="color:var(--warning)">1</div>
+      <div class="label"><span class="lang-en">Patent Pending (1st Inv.)</span><span class="lang-zh">申请中专利（第一发明人）</span></div>
+    </div>
+    <div class="stat">
+      <div class="value">3</div>
+      <div class="label"><span class="lang-en">AIIA Standards</span><span class="lang-zh">AIIA 标准参与</span></div>
+    </div>
+    <div class="stat">
+      <div class="value" style="color:var(--accent)">2</div>
+      <div class="label"><span class="lang-en">Invited / Oral Talks</span><span class="lang-zh">受邀报告 / 口头报告</span></div>
+    </div>
+    <div class="stat">
+      <div class="value" style="color:var(--success)">6</div>
+      <div class="label"><span class="lang-en">Competition Awards</span><span class="lang-zh">竞赛获奖</span></div>
+    </div>
+  </div>
+
+  <!-- ── RESEARCH TAGS ── -->
+  <div class="tags">
+    <span class="tag"><span class="lang-en">LLM Hallucination Research</span><span class="lang-zh">大语言模型幻觉研究</span></span>
+    <span class="tag"><span class="lang-en">Hallucination Evaluation</span><span class="lang-zh">幻觉评估</span></span>
+    <span class="tag"><span class="lang-en">Hallucination Mitigation</span><span class="lang-zh">幻觉缓解</span></span>
+    <span class="tag"><span class="lang-en">Domain-Specific LLM Governance</span><span class="lang-zh">领域 LLM 治理</span></span>
+    <span class="tag">RAG · Multi-Agent · RL</span>
+    <span class="tag">FinTech / RegTech</span>
+    <span class="tag"><span class="lang-en">AI Safety Standards</span><span class="lang-zh">AI 安全标准</span></span>
+  </div>
+
+  <!-- ── NAV ── -->
+  <nav id="main-nav">
+    <button class="active" data-section="overview">
+      <span class="lang-en">Overview</span><span class="lang-zh">概览</span>
+    </button>
+    <button data-section="publications">
+      <span class="lang-en">Publications</span><span class="lang-zh">学术论文</span>
+    </button>
+    <button data-section="patents">
+      <span class="lang-en">Patents &amp; Standards</span><span class="lang-zh">专利与标准</span>
+    </button>
+    <button data-section="experience">
+      <span class="lang-en">Experience</span><span class="lang-zh">科研与经历</span>
+    </button>
+    <button data-section="awards">
+      <span class="lang-en">Awards</span><span class="lang-zh">竞赛获奖</span>
+    </button>
+  </nav>
+
+  <!-- ══════════════ OVERVIEW ══════════════ -->
+  <div id="overview" class="section visible">
+
+    <!-- Research Profile -->
+    <h2><span class="lang-en">Research Profile</span><span class="lang-zh">学术定位</span></h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:18px">
+      <span class="lang-en">Baiyu Chen's research centres on <strong>LLM hallucination</strong> — spanning evaluation framework construction, technical mitigation methods, and domain-specific governance — with high-stakes financial regulation serving as the primary empirical validation domain.</span>
+      <span class="lang-zh">陈柏聿的核心研究方向为<strong>大语言模型幻觉</strong>，涵盖评估框架构建、技术缓解方法与领域特化治理，以金融监管等高风险场景作为主要实证验证域。</span>
+    </p>
+    <div class="two-col" style="margin-bottom:10px">
+      <div class="card" style="border-color:var(--accent);border-width:1.5px">
+        <div class="card-header">
+          <span class="lang-en">
+            <span style="font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.05em;text-transform:uppercase;margin-right:6px">Primary</span>
+            LLM Hallucination: Evaluation · Mitigation · Domain Governance
+          </span>
+          <span class="lang-zh">
+            <span style="font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.05em;margin-right:6px">主轴</span>
+            LLM 幻觉研究：评估 · 缓解 · 领域治理
+          </span>
+        </div>
+        <div class="card-body" style="font-size:13px;color:var(--muted)">
+          <span class="lang-en">From standardised evaluation frameworks (AIIA/T 0294-2026) and general mitigation methods (granted patent on triple-confidence structured reasoning) to domain-specific hallucination elimination in legal contexts (pending patent, 1st inventor). Research trajectory: evaluation standards → engineering solutions → domain-specific patents → hallucination mechanism and training-stage intervention.</span>
+          <span class="lang-zh">从标准化评估框架（AIIA/T 0294-2026）和通用幻觉缓解方法（三重置信度结构化推理专利），到法律领域特化幻觉消除（申请中，第一发明人）。研究路径：评估标准 → 工程解决方案 → 领域特化专利 → 幻觉机制与训练阶段介入。</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="lang-en">
+            <span style="font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-right:6px">Application Domain</span>
+            AI-Driven Financial Regulation &amp; RegTech
+          </span>
+          <span class="lang-zh">
+            <span style="font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.05em;margin-right:6px">应用域</span>
+            AI 驱动金融监管与监管科技
+          </span>
+        </div>
+        <div class="card-body" style="font-size:13px;color:var(--muted)">
+          <span class="lang-en">Financial regulation serves as the empirical testing ground: RAG-enhanced LLM and multi-agent systems for futures anomaly monitoring (ACM); PPO reinforcement learning for cross-market arbitrage (ACM). High-stakes financial decisions demand the highest reliability — making this an ideal domain to validate hallucination solutions and build domain-specific datasets.</span>
+          <span class="lang-zh">金融监管作为实证验证域：RAG 增强 LLM 与多智能体期货异常监测（ACM 论文）；PPO 强化学习跨市场套利（ACM 论文）。金融决策的高风险性使其成为验证幻觉解决方案、积累领域数据集的理想场景。</span>
+        </div>
+      </div>
+    </div>
+    <div class="callout" style="margin-bottom:28px;font-size:12.5px">
+      <span class="lang-en"><strong>Research arc:</strong> AIIA evaluation standard (defining hallucination) → mitigation patents (solving hallucination) → domain-specific patents in legal / supply-chain finance / accounting · audit → empirical papers → long-term: hallucination mechanism research &amp; training-stage intervention.</span>
+      <span class="lang-zh"><strong>研究路径：</strong>AIIA 评估标准（定义幻觉）→ 缓解专利（解决幻觉）→ 法律 / 供应链金融 / 财会审计领域特化专利 → 实证论文 → 长期：幻觉机制研究与训练阶段介入。</span>
+    </div>
+
+    <hr>
+
+    <!-- Key Highlights -->
+    <h2><span class="lang-en">Key Highlights</span><span class="lang-zh">核心成果亮点</span></h2>
+    <div class="highlight-list">
+
+      <!-- 1. 论文 -->
+      <div class="highlight-item">
+        <div class="highlight-icon" style="background:#1f1a2e;color:#a78bfa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="highlight-body">
+          <div class="highlight-title">
+            <span class="lang-en">2 ACM Conference Publications — FinTech &amp; AI Governance</span>
+            <span class="lang-zh">2 篇 ACM 国际会议论文 · 金融科技与 AI 治理</span>
+          </div>
+          <div class="highlight-desc">
+            <span class="lang-en">[1] ICCSMT '25 · RAG+DRL multi-agent futures monitoring — 92% detection accuracy, hallucination rate 35%→7%. &nbsp;[2] BDEIM '25 · PPO copper futures cross-market arbitrage — 95.05% cumulative return.</span>
+            <span class="lang-zh">[1] ICCSMT '25 · RAG+DRL 多智能体期货异常监测 — 检测准确率 92%，幻觉率 35%→7%。&nbsp;[2] BDEIM '25 · PPO 铜期货跨市场套利算法 — 累积收益率 95.05%。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 专利 -->
+      <div class="highlight-item">
+        <div class="highlight-icon" style="background:#1a2a1a;color:var(--success)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div class="highlight-body">
+          <div class="highlight-title">
+            <span class="lang-en">3 National Invention Patents — 2 Granted · 1 Pending (1st Inventor)</span>
+            <span class="lang-zh">3 项国家发明专利 · 2 项已授权 · 1 项申请中（第一发明人）</span>
+          </div>
+          <div class="highlight-desc">
+            <span class="lang-en">Granted: intelligent data annotation (ZL 2025 1 1403494.2) · LLM hallucination reduction (ZL 2026 1 0018069.X). Pending as 1st inventor: legal-domain LLM hallucination elimination via uncertainty theory &amp; formal logic — cross-institutional with Tsinghua · CAICT · CUFE.</span>
+            <span class="lang-zh">已授权：高质量智能数据标注（ZL 2025 1 1403494.2）· 降低大语言模型幻觉（ZL 2026 1 0018069.X）。申请中（第一发明人）：基于不确定理论与形式逻辑验证的法律领域 LLM 幻觉消除——清华·CAICT·中央财经大学 跨校合作。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 标准 -->
+      <div class="highlight-item">
+        <div class="highlight-icon" style="background:var(--accent-dim);color:var(--accent)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="highlight-body">
+          <div class="highlight-title">
+            <span class="lang-en">Principal Drafter — 3 AIIA National Technical Standards</span>
+            <span class="lang-zh">AIIA 国家技术标准主要起草人 · 3 项</span>
+          </div>
+          <div class="highlight-desc">
+            <span class="lang-en">AIIA/T 0294-2026 — Hallucination Evaluation Framework: first proposed the concept of <strong>Execution Hallucination</strong> (执行幻觉) for tool-calling AI agents. &nbsp;AIIA/T 0296-2026 — LLM Platform Security Ops Management. &nbsp;AI Agent Security Classification Standard — in development.</span>
+            <span class="lang-zh">AIIA/T 0294-2026——幻觉评估框架：首次提出面向工具调用智能体的<strong>执行幻觉</strong>概念。&nbsp;AIIA/T 0296-2026——大模型平台安全运营管理能力要求。&nbsp;AI 智能体应用安全分级规范——在制定中。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 竞赛 -->
+      <div class="highlight-item">
+        <div class="highlight-icon" style="background:#2a1a2a;color:#c084fc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="highlight-body">
+          <div class="highlight-title">
+            <span class="lang-en">National &amp; International Awards — First Prize ×2 · International First Prize ×1</span>
+            <span class="lang-zh">国家级一等奖 ×2 · 国际一等奖 ×1（共 6 项获奖）</span>
+          </div>
+          <div class="highlight-desc">
+            <span class="lang-en">Python Data Analysis (National) · "Innovation Cup" Big Data Challenge (National) · APMCM Asia-Pacific Mathematical Modelling (International) · 6 competition awards in total.</span>
+            <span class="lang-zh">全国高校 Python 数据分析赛一等奖 · 创新杯全国大数据挑战赛一等奖 · APMCM 亚太数学建模国际一等奖，共 6 项获奖。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 会议分享 — AIIA 专家研讨会 -->
+      <div class="highlight-item">
+        <div class="highlight-icon" style="background:#2e1a00;color:var(--warning)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="highlight-body">
+          <div class="highlight-title">
+            <span class="lang-en">Invited Expert — AIIA National AI Standardisation Workshop, Beijing</span>
+            <span class="lang-zh">受邀专家 · AIIA 全国人工智能标准化专家研讨会，北京</span>
+          </div>
+          <div class="highlight-desc">
+            <span class="lang-en">Presented on "Generative AI Hallucination Control Based on Quadruple Verification &amp; MoE Model" · Jan 29, 2026 · Shouxiang Technology Building, Haidian District.</span>
+            <span class="lang-zh">主题报告：基于四重验证机制及混合专家模型的生成式 AI 幻觉控制原理及方案 · 2026 年 1 月 29 日 · 北京海淀首享科技大厦。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. 会议分享 — ICCSMT 口头报告 -->
+      <div class="highlight-item">
+        <div class="highlight-icon" style="background:#1a1f2e;color:#60a5fa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="highlight-body">
+          <div class="highlight-title">
+            <span class="lang-en">Conference Oral Presentation Certificate — ICCSMT 2025, Xiamen</span>
+            <span class="lang-zh">国际会议口头报告证书 · ICCSMT 2025，厦门</span>
+          </div>
+          <div class="highlight-desc">
+            <span class="lang-en">Presented "RAG-Enhanced LLM and RL Scheduling" at the 2025 6th Int'l Conference on Computer Science and Management Technology · Dec 26–28, 2025.</span>
+            <span class="lang-zh">在第六届计算机科学与管理技术国际会议发表口头报告 · 2025 年 12 月 26–28 日，厦门。</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr>
+
+    <!-- Featured Publications -->
+    <h2><span class="lang-en">Featured Publications</span><span class="lang-zh">代表性论文</span></h2>
+    <div class="two-col" style="margin-bottom:28px">
+      <div class="card">
+        <div class="card-header" style="font-size:13px;line-height:1.5">
+          <span>[1] RAG-Enhanced LLM and RL Scheduling: Optimizing a Multi-Agent Framework for Abnormal Futures Price Monitoring</span>
+          <span class="pill pill-info" style="white-space:nowrap;flex-shrink:0">ICCSMT '25</span>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;gap:16px;margin-bottom:12px">
+            <div class="stat" style="flex:1"><div class="value" style="font-size:20px">92%</div><div class="label"><span class="lang-en">Detection Acc.</span><span class="lang-zh">检测准确率</span></div></div>
+            <div class="stat" style="flex:1"><div class="value" style="font-size:20px;color:var(--success)">7%</div><div class="label"><span class="lang-en">Hallucination Rate (↓35%)</span><span class="lang-zh">幻觉率（↓35%）</span></div></div>
+          </div>
+          <div class="doi-row">
+            <span>DOI</span>
+            <a href="https://doi.org/10.1145/3795154.3795432" target="_blank">10.1145/3795154.3795432</a>
+            <button class="tab-link-btn" onclick="switchTab('publications')">
+              <span class="lang-en">Details →</span><span class="lang-zh">详情 →</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" style="font-size:13px;line-height:1.5">
+          <span>[2] Research on an Intelligent Algorithm for Cross-Market Arbitrage of Copper Futures Based on Dynamic Slope Calculation – EMA Filtering – PPO Reinforcement Learning</span>
+          <span class="pill pill-info" style="white-space:nowrap;flex-shrink:0">BDEIM '25</span>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;gap:16px;margin-bottom:12px">
+            <div class="stat" style="flex:1"><div class="value" style="font-size:20px;color:var(--success)">95.05%</div><div class="label"><span class="lang-en">Cumulative Return</span><span class="lang-zh">累积收益率</span></div></div>
+            <div class="stat" style="flex:1"><div class="value" style="font-size:20px;color:var(--warning)">9.89%</div><div class="label"><span class="lang-en">Max Drawdown</span><span class="lang-zh">最大回撤</span></div></div>
+          </div>
+          <div class="doi-row">
+            <span>DOI</span>
+            <a href="https://doi.org/10.1145/3800000.3800226" target="_blank">10.1145/3800000.3800226</a>
+            <button class="tab-link-btn" onclick="switchTab('publications')">
+              <span class="lang-en">Details →</span><span class="lang-zh">详情 →</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Education -->
+    <h2><span class="lang-en">Education</span><span class="lang-zh">教育背景</span></h2>
+    <div class="edu-list">
+      <div class="edu-item">
+        <div class="edu-dot" style="background:var(--accent)"></div>
+        <div class="edu-body">
+          <div class="edu-title">
+            <span class="lang-en">B.Eng. Financial Engineering <em>(in progress)</em></span>
+            <span class="lang-zh">金融工程学士 <em>（在读）</em></span>
+            <span class="pill pill-info" style="margin-left:auto;font-size:11px">2022 – <span class="lang-en">Present</span><span class="lang-zh">至今</span></span>
+          </div>
+          <div class="edu-sub">
+            <span class="lang-en">Minnan University of Science and Technology, School of Economics and Management · Shishi, Fujian, China</span>
+            <span class="lang-zh">闽南理工学院 经济管理学院 · 福建石狮</span>
+          </div>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-dot" style="background:var(--success)"></div>
+        <div class="edu-body">
+          <div class="edu-title">
+            <span class="lang-en">Student Exchange — Mobility Programme</span>
+            <span class="lang-zh">学生交流——流动项目</span>
+            <span class="pill pill-granted" style="margin-left:auto;font-size:11px">Jan – May 2026</span>
+          </div>
+          <div class="edu-sub">
+            <span class="lang-en">Tunku Abdul Rahman University of Management and Technology (TAR UMT) · Kuala Lumpur, Malaysia</span>
+            <span class="lang-zh">东姑阿都拉曼管理及工艺大学（TAR UMT）· 马来西亚吉隆坡</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ PUBLICATIONS ══════════════ -->
+  <div id="publications" class="section">
+    <h2><span class="lang-en">Conference Papers</span><span class="lang-zh">国际会议论文</span></h2>
+
+    <div class="card">
+      <div class="card-header">
+        <span>[1] RAG-Enhanced LLM and RL Scheduling: Optimizing a Multi-Agent Framework for Abnormal Futures Price Monitoring</span>
+        <span class="pill pill-info" style="white-space:nowrap">ACM · ICCSMT 2025</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">
+          Shuangyang Zheng, Yangchen Zhong, Xiaobao Que, Jingming Shen, <strong>Baiyu Chen</strong>, Weiqin Shen, Shibao Zheng, Bo Liu, Jin Gao
+        </p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">
+          <strong>ICCSMT '25</strong> · ACM · pp. 1747–1755 (9 pages) · <span class="lang-en">Conf. dates:</span><span class="lang-zh">会议时间：</span> 26–28 Dec 2025, Xiamen, China · <span class="lang-en">Published:</span><span class="lang-zh">发布日期：</span> 01 April 2026
+        </p>
+        <div class="doi-row">
+          <span>DOI:</span>
+          <a href="https://doi.org/10.1145/3795154.3795432" target="_blank">10.1145/3795154.3795432</a>
+          <span class="pill pill-open">Open Access</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 12px">
+          <div class="stat"><div class="value" style="font-size:18px">92%</div><div class="label"><span class="lang-en">Detection Accuracy</span><span class="lang-zh">检测准确率</span></div></div>
+          <div class="stat"><div class="value" style="font-size:18px;color:var(--success)">7%</div><div class="label"><span class="lang-en">Hallucination Rate (↓ from 35%)</span><span class="lang-zh">幻觉率（↓ 从 35%）</span></div></div>
+          <div class="stat"><div class="value" style="font-size:18px;color:var(--warning)">Oral</div><div class="label"><span class="lang-en">Presentation at ICCSMT 2025</span><span class="lang-zh">ICCSMT 2025 口头报告</span></div></div>
+        </div>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag">RAG</span><span class="tag">LLM</span><span class="tag">DRL</span>
+          <span class="tag">Multi-Agent</span><span class="tag"><span class="lang-en">Futures Monitoring</span><span class="lang-zh">期货监测</span></span>
+          <span class="tag">FinTech RegTech</span><span class="tag"><span class="lang-en">Hallucination Mitigation</span><span class="lang-zh">幻觉缓解</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span>[2] Research on an Intelligent Algorithm for Cross-Market Arbitrage of Copper Futures Based on Dynamic Slope Calculation – EMA Filtering – PPO Reinforcement Learning</span>
+        <span class="pill pill-info" style="white-space:nowrap">ACM · BDEIM 2025</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">
+          Shuangyang Zheng, Yangchen Zhong, Xiaobao Que, Jingming Shen, <strong>Baiyu Chen</strong>, Weiqin Shen, Shibao Zheng, Hengxin Deng, Jin Gao
+        </p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">
+          <strong>BDEIM '25</strong> · ACM · pp. 1477–1487 (11 pages) · <span class="lang-en">Conf. dates:</span><span class="lang-zh">会议时间：</span> 19–21 Dec 2025, Shanghai, China · <span class="lang-en">Published:</span><span class="lang-zh">发布日期：</span> 15 May 2026
+        </p>
+        <div class="doi-row">
+          <span>DOI:</span>
+          <a href="https://doi.org/10.1145/3800000.3800226" target="_blank">10.1145/3800000.3800226</a>
+          <span class="pill pill-open">Open Access</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 12px">
+          <div class="stat"><div class="value" style="font-size:18px;color:var(--success)">95.05%</div><div class="label"><span class="lang-en">Cumulative Return</span><span class="lang-zh">累积收益率</span></div></div>
+          <div class="stat"><div class="value" style="font-size:18px">16.76%</div><div class="label"><span class="lang-en">Annualised Return</span><span class="lang-zh">年化收益率</span></div></div>
+          <div class="stat"><div class="value" style="font-size:18px;color:var(--warning)">9.89%</div><div class="label"><span class="lang-en">Max Drawdown</span><span class="lang-zh">最大回撤</span></div></div>
+        </div>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag">PPO · RL</span>
+          <span class="tag"><span class="lang-en">Copper Futures</span><span class="lang-zh">铜期货</span></span>
+          <span class="tag"><span class="lang-en">Cross-Market Arbitrage</span><span class="lang-zh">跨市场套利</span></span>
+          <span class="tag">EMA Filtering</span>
+          <span class="tag"><span class="lang-en">Dynamic Slope Calc.</span><span class="lang-zh">动态斜率计算</span></span>
+          <span class="tag"><span class="lang-en">Quantitative Finance</span><span class="lang-zh">量化金融</span></span>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <h2><span class="lang-en">Conference Oral Presentation</span><span class="lang-zh">国际会议口头报告</span></h2>
+    <table>
+      <thead><tr>
+        <th><span class="lang-en">Title</span><span class="lang-zh">报告题目</span></th>
+        <th><span class="lang-en">Conference</span><span class="lang-zh">会议</span></th>
+        <th><span class="lang-en">Location</span><span class="lang-zh">地点</span></th>
+        <th><span class="lang-en">Date</span><span class="lang-zh">时间</span></th>
+        <th><span class="lang-en">Role</span><span class="lang-zh">角色</span></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>RAG-Enhanced LLM and RL Scheduling: Optimizing a Multi-Agent Framework for Abnormal Futures Price Monitoring</td>
+          <td>ICCSMT '25</td>
+          <td><span class="lang-en">Xiamen, China</span><span class="lang-zh">厦门，中国</span></td>
+          <td>26–28 Dec 2025</td>
+          <td><span class="lang-en">Presenter (Oral)</span><span class="lang-zh">报告人（口头报告）</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <span class="lang-en">Certificate of Oral Presentation issued by the Committee of ICCSMT 2025 (December 2025). Affiliation: School of Economics and Management, Minnan University of Science and Technology.</span>
+      <span class="lang-zh">口头报告证书由 ICCSMT 2025 会议委员会颁发（2025 年 12 月）。证书署名单位：闽南理工学院经济管理学院。</span>
+    </div>
+  </div>
+
+  <!-- ══════════════ PATENTS & STANDARDS ══════════════ -->
+  <div id="patents" class="section">
+    <h2><span class="lang-en">Invention Patents</span><span class="lang-zh">发明专利</span></h2>
+
+    <div class="card">
+      <div class="card-header">
+        <span>[1] <span class="lang-en">A High-Quality Intelligent Data Annotation Method</span><span class="lang-zh">一种高质量智能数据标注方法</span></span>
+        <span class="pill pill-granted"><span class="lang-en">Granted</span><span class="lang-zh">已授权</span></span>
+      </div>
+      <div class="card-body">
+        <table class="meta-table">
+          <tr><td><span class="lang-en">Patent No.</span><span class="lang-zh">专利号</span></td><td>ZL 2025 1 1403494.2</td></tr>
+          <tr><td><span class="lang-en">Announcement No.</span><span class="lang-zh">公告号</span></td><td>CN 120873192 B</td></tr>
+          <tr><td><span class="lang-en">Filing Date</span><span class="lang-zh">申请日</span></td><td>2025.09.29</td></tr>
+          <tr><td><span class="lang-en">Grant Date</span><span class="lang-zh">授权公告日</span></td><td>2026.01.13</td></tr>
+          <tr><td><span class="lang-en">Inventors</span><span class="lang-zh">发明人</span></td><td><span class="lang-en">Shuangyang Zheng, <strong>Baiyu Chen</strong>, Yi Lin, Jingming Shen, Wenhui Huang, Yangchen Zhong, Yuhong Huang</span><span class="lang-zh">郑双阳、<strong>陈柏聿</strong>、林一、沈景铭、黄文辉、钟阳晨、黄宇宏</span></td></tr>
+          <tr><td><span class="lang-en">Patent Holder</span><span class="lang-zh">专利权人</span></td><td><span class="lang-en">Minnan University of Science and Technology</span><span class="lang-zh">闽南理工学院</span></td></tr>
+        </table>
+        <div class="callout" style="margin-top:14px">
+          <strong><span class="lang-en">Core Method:</span><span class="lang-zh">核心方法：</span></strong>
+          <span class="lang-en">Input text is mapped to a d-dimensional semantic vector space. LLM-driven rule feature extraction constructs a rule feature vector. A mixed feature space (semantic + rule) is built; a similarity graph is constructed for label propagation. Uncertainty-based confidence scoring (vector evidence · rule evidence · LLM direct-judgment evidence) is fused to determine final labels — improving annotation accuracy from multiple representation angles.</span>
+          <span class="lang-zh">输入文本映射为 d 维语义向量空间；LLM 驱动规则特征提取构建规则特征向量；语义+规则混合特征空间 → 构建相似图进行标签传播；不确定数学信度检验（向量证据·规则证据·LLM 直判证据三重融合）→ 最终标签决策。多角度表征有效提升标注准确性。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span>[2] <span class="lang-en">A Method for Reducing Large Language Model Hallucinations</span><span class="lang-zh">一种降低大语言模型幻觉的方法</span></span>
+        <span class="pill pill-granted"><span class="lang-en">Granted</span><span class="lang-zh">已授权</span></span>
+      </div>
+      <div class="card-body">
+        <table class="meta-table">
+          <tr><td><span class="lang-en">Patent No.</span><span class="lang-zh">专利号</span></td><td>ZL 2026 1 0018069.X</td></tr>
+          <tr><td><span class="lang-en">Announcement No.</span><span class="lang-zh">公告号</span></td><td>CN 121480738 B</td></tr>
+          <tr><td><span class="lang-en">Filing Date</span><span class="lang-zh">申请日</span></td><td>2026.01.08</td></tr>
+          <tr><td><span class="lang-en">Grant Date</span><span class="lang-zh">授权公告日</span></td><td>2026.03.17</td></tr>
+          <tr><td><span class="lang-en">Inventors</span><span class="lang-zh">发明人</span></td><td><span class="lang-en">Shuangyang Zheng, <strong>Baiyu Chen</strong>, Yi Lin, Jingming Shen, Wenhui Huang, Yuwen Wang, Xi Liang, Jin Gao, Weiqin Shen, Quanzhou Chen</span><span class="lang-zh">郑双阳、<strong>陈柏聿</strong>、林一、沈景铭、黄文辉、王煜文、梁曦、高谨、沈伟钦、陈权洲</span></td></tr>
+          <tr><td><span class="lang-en">Patent Holder</span><span class="lang-zh">专利权人</span></td><td><span class="lang-en">Minnan University of Science and Technology</span><span class="lang-zh">闽南理工学院</span></td></tr>
+        </table>
+        <div class="callout" style="margin-top:14px">
+          <strong><span class="lang-en">Core Method:</span><span class="lang-zh">核心方法：</span></strong>
+          <span class="lang-en">LLM generates N structured reasoning candidates, each with a chain of reasoning steps carrying self-assessed confidence. Triple confidence evaluation: opposition check confidence · entailment check confidence · minimum step confidence → aggregated composite confidence. The candidate with highest composite confidence is selected as optimal; the weakest reasoning step undergoes global diagnostic analysis → targeted correction strategy → suffix reconstruction or rewrite → convergence judgement. Significantly enhances interpretability and auditability of LLM outputs.</span>
+          <span class="lang-zh">LLM 生成 N 个结构化候选推理链（每步携带前提陈述与自评置信度）；三重置信度评估：对立检查置信度·蕴含检查置信度·最小步骤置信度 → 综合置信度聚合；选最优候选 → 全局推理链弱点诊断（根本原因·上游依赖·修正策略）→ 步骤修正与后缀重建 → 收敛判定。显著提升 LLM 输出的可解释性与可审计性。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span>[3] <span class="lang-en">A Method for Eliminating Hallucinations in Legal Domain LLMs Based on Uncertainty Theory and Formal Logic Verification</span><span class="lang-zh">一种基于不确定理论与形式逻辑验证的法律领域大语言模型幻觉消除方法</span></span>
+        <span class="pill pill-pending"><span class="lang-en">Pending · 1st Inventor</span><span class="lang-zh">申请中 · 第一发明人</span></span>
+      </div>
+      <div class="card-body">
+        <table class="meta-table">
+          <tr><td><span class="lang-en">Status</span><span class="lang-zh">状态</span></td><td><span class="lang-en">Patent Pending — Institution approved: 2026.05.19</span><span class="lang-zh">申请中 — 校内审批：2026.05.19</span></td></tr>
+          <tr><td><span class="lang-en">Lead Inventor</span><span class="lang-zh">第一发明人</span></td><td><strong><span class="lang-en">Baiyu Chen</span><span class="lang-zh">陈柏聿</span></strong></td></tr>
+          <tr><td><span class="lang-en">Co-Inventors</span><span class="lang-zh">共同发明人</span></td><td>
+            <span class="lang-en">Jingming Shen · Kaixi Zhang (Tsinghua Univ., PhD) · Ruolong Ma (CAICT AI Institute) · Tingqing Ye (China Univ. of Geosciences Beijing) · Wentao Chen (CAICT, Deputy Director) · Wei Dai (CUFE) · Li Luo · Qisi Wang · Muchen Chen · Shuangyang Zheng</span>
+            <span class="lang-zh">沈景铭 · 张开西（清华大学数学系博士）· 马若龙（中国信通院AI所）· 叶廷青（中国地质大学北京）· 陈文弢（中国信通院AI所副所长）· 戴韡（中央财经大学）· 罗立 · 汪启思 · 陈牧晨 · 郑双阳</span>
+          </td></tr>
+          <tr><td><span class="lang-en">Patent Holder</span><span class="lang-zh">专利权人</span></td><td><span class="lang-en">Minnan University of Science and Technology</span><span class="lang-zh">闽南理工学院</span></td></tr>
+        </table>
+        <div class="callout">
+          <strong><span class="lang-en">Cross-Institutional Collaboration:</span><span class="lang-zh">跨机构合作：</span></strong>
+          <span class="lang-en">Co-inventors span Tsinghua University, CAICT/AIIA, Central University of Finance and Economics (CUFE), China University of Geosciences Beijing, and Fujian Normal University.</span>
+          <span class="lang-zh">联合发明团队跨越清华大学、中国信通院（AIIA 主管机构）、中央财经大学、中国地质大学（北京）、福建师范大学。</span>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <h2>
+      <span class="lang-en">Technical Standards Participation <span style="font-weight:400;font-size:14px;color:var(--muted)">— AIIA, China</span></span>
+      <span class="lang-zh">标准参与 <span style="font-weight:400;font-size:14px;color:var(--muted)">— 中国人工智能产业发展联盟（AIIA）</span></span>
+    </h2>
+    <table>
+      <thead><tr>
+        <th>#</th>
+        <th><span class="lang-en">Standard Title</span><span class="lang-zh">标准名称</span></th>
+        <th><span class="lang-en">Standard No.</span><span class="lang-zh">标准编号</span></th>
+        <th><span class="lang-en">Issue Date</span><span class="lang-zh">发布时间</span></th>
+        <th><span class="lang-en">Role</span><span class="lang-zh">参与身份</span></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>
+            <span class="lang-en">Hallucination Evaluation Framework for Generative AI Model Applications</span>
+            <span class="lang-zh">《生成式人工智能模型应用幻觉评估框架》</span>
+          </td>
+          <td>AIIA/T 0294-2026</td><td>2026.04</td>
+          <td>
+            <span class="lang-en">Principal Drafter <span style="color:var(--muted);font-size:12px">(9th of drafters · inst. ranked 3rd)</span></span>
+            <span class="lang-zh">主要起草人 <span style="color:var(--muted);font-size:12px">（起草人排名第 9 · 单位排名第 3）</span></span>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>
+            <span class="lang-en">Security of Large Model Dev &amp; Ops Platform, Part 3: Security Operations Management Capability Requirements</span>
+            <span class="lang-zh">《大模型开发运营平台安全 第3部分：大模型平台安全运营管理能力要求》</span>
+          </td>
+          <td>AIIA/T 0296-2026</td><td>2026.05</td>
+          <td>
+            <span class="lang-en">Principal Drafter <span style="color:var(--muted);font-size:12px">(10th of drafters · inst. ranked 11th)</span></span>
+            <span class="lang-zh">主要起草人 <span style="color:var(--muted);font-size:12px">（起草人排名第 10 · 单位排名第 11）</span></span>
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>
+            <span class="lang-en">Security Classification Standard for AI Agent Applications</span>
+            <span class="lang-zh">《AI智能体应用安全分级规范》</span>
+          </td>
+          <td style="color:var(--muted)"><span class="lang-en">Pending</span><span class="lang-zh">待定</span></td>
+          <td><span class="pill pill-pending" style="font-size:11px"><span class="lang-en">In Development</span><span class="lang-zh">制定中</span></span></td>
+          <td><span class="lang-en">Principal Drafter</span><span class="lang-zh">主要起草人</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card" style="margin-top:20px">
+      <div class="card-header">
+        <span>AIIA/T 0294-2026 · <span class="lang-en">Hallucination Evaluation Framework for Generative AI Model Applications</span><span class="lang-zh">生成式人工智能模型应用幻觉评估框架</span></span>
+        <span class="pill pill-granted" style="flex-shrink:0"><span class="lang-en">Published Apr 2026</span><span class="lang-zh">2026.04 发布</span></span>
+      </div>
+      <div class="card-body" style="font-size:13px;color:var(--muted)">
+        <table class="meta-table" style="margin-bottom:12px">
+          <tr>
+            <td><span class="lang-en">Drafter Rank</span><span class="lang-zh">起草人排名</span></td>
+            <td><strong><span class="lang-en">Baiyu Chen — 9th of principal drafters</span><span class="lang-zh">陈柏聿 — 主要起草人第 9 位</span></strong></td>
+          </tr>
+          <tr>
+            <td><span class="lang-en">Institution Rank</span><span class="lang-zh">起草单位排名</span></td>
+            <td><span class="lang-en">Minnan University of Science and Technology — 3rd of drafting organisations</span><span class="lang-zh">闽南理工学院 — 起草单位第 3 位</span></td>
+          </tr>
+          <tr>
+            <td><span class="lang-en">Lead Organisation</span><span class="lang-zh">主要起草单位</span></td>
+            <td><span class="lang-en">China Academy of Information and Communications Technology (CAICT/CICT) · 40+ co-drafting organisations</span><span class="lang-zh">中国信息通信研究院（牵头）· 联合 40+ 家单位</span></td>
+          </tr>
+        </table>
+        <p style="margin-bottom:10px">
+          <span class="lang-en">Defines hallucination evaluation requirements for generative AI models (LLMs, multimodal models, AI agents) across <strong>6 core dimensions</strong>: factual accuracy · source fidelity · internal consistency · instruction following · logical reasoning · honest uncertainty expression.</span>
+          <span class="lang-zh">规定生成式 AI 模型（大语言模型、多模态模型、AI 智能体）幻觉评估的 <strong>6 大核心维度</strong>：事实准确性·来源忠实性·内部一致性·指令遵循能力·逻辑推理能力·不确定性诚实表达。</span>
+        </p>
+        <p>
+          <span class="lang-en"><strong>Key contribution:</strong> First proposed the concept of <strong>Execution Hallucination (执行幻觉)</strong> — a new hallucination type specific to tool-calling AI agents, where the model fabricates execution states, falsely reports task completion, or claims unauthorised capabilities. This fills a critical gap in AI safety evaluation for agentic systems.</span>
+          <span class="lang-zh"><strong>核心贡献：</strong>首次提出<strong>执行幻觉（Execution Hallucination）</strong>概念——专门针对具备工具调用能力的 AI 智能体，指模型虚构执行状态、虚报任务完成状态或声称具备未被授权执行能力的幻觉现象，填补了 AI 智能体安全评估领域的重要空白。</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <span>AIIA/T 0296-2026 · <span class="lang-en">LLM Dev &amp; Ops Platform Security, Part 3: Security Operations Management Capability Requirements</span><span class="lang-zh">大模型开发运营平台安全 第3部分：大模型平台安全运营管理能力要求</span></span>
+        <span class="pill pill-granted" style="flex-shrink:0"><span class="lang-en">Published May 2026</span><span class="lang-zh">2026.05 发布</span></span>
+      </div>
+      <div class="card-body" style="font-size:13px;color:var(--muted)">
+        <table class="meta-table" style="margin-bottom:12px">
+          <tr>
+            <td><span class="lang-en">Drafter Rank</span><span class="lang-zh">起草人排名</span></td>
+            <td><strong><span class="lang-en">Baiyu Chen — 10th of principal drafters</span><span class="lang-zh">陈柏聿 — 主要起草人第 10 位</span></strong></td>
+          </tr>
+          <tr>
+            <td><span class="lang-en">Institution Rank</span><span class="lang-zh">起草单位排名</span></td>
+            <td><span class="lang-en">Minnan University of Science and Technology — 11th of drafting organisations</span><span class="lang-zh">闽南理工学院 — 起草单位第 11 位</span></td>
+          </tr>
+          <tr>
+            <td><span class="lang-en">Lead Organisation</span><span class="lang-zh">主要起草单位</span></td>
+            <td><span class="lang-en">China Academy of Information and Communications Technology (CAICT/CICT) · 10 co-drafting organisations</span><span class="lang-zh">中国信息通信研究院（牵头）· 联合 10 家单位</span></td>
+          </tr>
+        </table>
+        <span class="lang-en">Specifies the core security operations management capabilities for LLM platforms across <strong>3 modules</strong>: (1) Full lifecycle security management — deployment, upgrade &amp; maintenance, operations, decommissioning; (2) Personnel &amp; permission governance — role division, least-privilege access, operation audit &amp; traceability; (3) Security monitoring — threat &amp; situational awareness, vulnerability management, security analysis, emergency response. Part of the multi-series <em>Security of Large Model Development and Operations Platform</em> standards.</span>
+        <span class="lang-zh">规定大模型平台安全运营管理的 <strong>3 大核心能力模块</strong>：①全生命周期安全管理——部署、升级维护、运维操作、平台下线各阶段规范；②人员与权限管理体系——角色划分、权限最小化、操作审计与追溯；③安全监测——安全态势感知、漏洞管理、安全研判分析、安全应急处置。属《大模型开发运营平台安全》系列标准第3部分。</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ EXPERIENCE ══════════════ -->
+  <div id="experience" class="section">
+
+    <h2><span class="lang-en">Research Experience</span><span class="lang-zh">科研经历</span></h2>
+    <div class="card" style="margin-bottom:28px">
+      <div class="card-header">
+        <span class="lang-en">Data Intelligence Collaborative Innovation Centre · Minnan University of Science and Technology<br><span style="font-weight:400;font-size:11px;color:var(--muted)">formerly Digital-Intelligent Economy Industrial Innovation Research Centre</span></span>
+        <span class="lang-zh">数据智能协同创新中心 · 闽南理工学院<br><span style="font-weight:400;font-size:11px;color:var(--muted)">曾用名：数智经济产业创新研究中心</span></span>
+        <span class="pill pill-info" style="margin-left:auto;flex-shrink:0">2024 – <span class="lang-en">Present</span><span class="lang-zh">至今</span></span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <span class="lang-en">Project Researcher / Principal Researcher · Contributed to RAG-enhanced LLM, multi-agent systems, RL applied to financial regulation, futures anomaly monitoring, arbitrage strategy, and A-share manipulation detection research.</span>
+          <span class="lang-zh">项目研究员 / 首席研究员 · 参与 RAG 增强 LLM、多智能体系统、强化学习在金融监管中的应用，以及期货异常监测、跨市场套利策略、A 股市场操纵识别等研究。</span>
+        </p>
+        <table>
+          <thead><tr>
+            <th><span class="lang-en">Research Focus</span><span class="lang-zh">研究方向</span></th>
+            <th><span class="lang-en">Role</span><span class="lang-zh">角色</span></th>
+          </tr></thead>
+          <tbody>
+            <tr><td><span class="lang-en">Generative AI Hallucination Governance &amp; LLM Reliability Evaluation</span><span class="lang-zh">生成式 AI 幻觉治理与大语言模型可靠性评估</span></td><td><span class="lang-en">Principal Researcher</span><span class="lang-zh">首席研究员</span></td></tr>
+            <tr><td><span class="lang-en">AI Safety &amp; Large Model Platform Governance</span><span class="lang-zh">AI 安全与大模型平台治理</span></td><td><span class="lang-en">Principal Researcher</span><span class="lang-zh">首席研究员</span></td></tr>
+            <tr><td><span class="lang-en">Financial Regulatory Technology (RegTech)</span><span class="lang-zh">金融监管科技（RegTech）</span></td><td><span class="lang-en">Project Researcher</span><span class="lang-zh">项目研究员</span></td></tr>
+            <tr><td><span class="lang-en">Quantitative Investment &amp; Financial Data Analytics</span><span class="lang-zh">量化投资与金融数据分析</span></td><td><span class="lang-en">Project Researcher</span><span class="lang-zh">项目研究员</span></td></tr>
+            <tr><td><span class="lang-en">Multi-Source Heterogeneous Data Fusion &amp; Intelligent Decision-Making</span><span class="lang-zh">多源异构数据融合与智能决策</span></td><td><span class="lang-en">Project Researcher</span><span class="lang-zh">项目研究员</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr>
+    <h2><span class="lang-en">Academic Activities &amp; Invited Presentations</span><span class="lang-zh">学术活动与受邀报告</span></h2>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="lang-en">AIIA Expert Workshop — Generative AI Hallucination &amp; Reliability Evaluation Framework</span>
+        <span class="lang-zh">AIIA 专家研讨会——生成式 AI 幻觉与可靠性评估框架</span>
+        <span class="pill pill-info" style="margin-left:auto;flex-shrink:0">2026.01.29</span>
+      </div>
+      <div class="card-body">
+        <table class="meta-table">
+          <tr><td><span class="lang-en">Organiser</span><span class="lang-zh">主办单位</span></td><td><span class="lang-en">Artificial Intelligence Industry Alliance of China (AIIA)</span><span class="lang-zh">中国人工智能产业发展联盟（AIIA）</span></td></tr>
+          <tr><td><span class="lang-en">Venue</span><span class="lang-zh">地点</span></td><td><span class="lang-en">7/F, Shouxiang Technology Building, Haidian District, Beijing</span><span class="lang-zh">北京市海淀区首享科技大厦 7 层</span></td></tr>
+          <tr><td><span class="lang-en">Role</span><span class="lang-zh">参与身份</span></td><td><span class="lang-en">Invited Expert / Principal Researcher, Data Intelligence Collaborative Innovation Centre, Minnan University of Science and Technology</span><span class="lang-zh">专家 / 闽南理工学院数据智能协同创新中心首席研究员</span></td></tr>
+          <tr><td><span class="lang-en">Presentation</span><span class="lang-zh">分享主题</span></td><td><span class="lang-en">Generative AI Hallucination Control Based on Quadruple Verification Mechanism and Mixture of Experts Model</span><span class="lang-zh">基于四重验证机制及混合专家模型的生成式 AI 幻觉控制原理及方案</span></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="lang-en">AIIA Expert Workshop — Large Model Dev &amp; Ops Platform Security Standards</span>
+        <span class="lang-zh">AIIA 专家研讨会——大模型开发运营平台安全系列标准</span>
+        <span class="pill pill-info" style="margin-left:auto;flex-shrink:0">2026.03.18</span>
+      </div>
+      <div class="card-body">
+        <table class="meta-table">
+          <tr><td><span class="lang-en">Organiser</span><span class="lang-zh">主办单位</span></td><td><span class="lang-en">Artificial Intelligence Industry Alliance of China (AIIA)</span><span class="lang-zh">中国人工智能产业发展联盟（AIIA）</span></td></tr>
+          <tr><td><span class="lang-en">Venue</span><span class="lang-zh">地点</span></td><td><span class="lang-en">7/F, Shouxiang Technology Building, Haidian District, Beijing</span><span class="lang-zh">北京市海淀区首享科技大厦 7 层</span></td></tr>
+          <tr><td><span class="lang-en">Focus</span><span class="lang-zh">研讨方向</span></td><td><span class="lang-en">LLM Platform Security · AI Safety Governance · Security Operations Management Requirements</span><span class="lang-zh">大模型平台安全 · AI 安全治理 · 平台安全运营管理能力要求</span></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <hr>
+    <h2><span class="lang-en">Work Experience &amp; Applied Projects</span><span class="lang-zh">工作经历与应用项目</span></h2>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="lang-en">Xiamen Zhongxing Carbon Smart Technology Co., Ltd. · AI Engineering Intern</span>
+        <span class="lang-zh">厦门中星碳智慧科技有限公司 · AI 工程实习生</span>
+        <span class="pill pill-neutral" style="margin-left:auto;flex-shrink:0">
+          <span class="lang-en">Sep – Dec 2025 · Xiamen</span>
+          <span class="lang-zh">2025.09–12 · 厦门</span>
+        </span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+          <span class="lang-en">Independently led the end-to-end development of two core AI systems. Assessed as <strong>"Excellent"</strong> by on-site supervisor.</span>
+          <span class="lang-zh">个人主导完成两大核心系统的全流程研发，获实习单位指导教师评定<strong>"实习成绩优秀"</strong>。</span>
+        </p>
+        <div class="two-col">
+          <div>
+            <h3><span class="lang-en">Project 1: Automated Multi-Model Audio Annotation System</span><span class="lang-zh">项目一：自动化多模型音频标注系统</span></h3>
+            <p style="font-size:13px;color:var(--muted)">
+              <span class="lang-en">Sole developer. Playwright browser automation + parallel multi-model AI core. ASR accuracy &gt;95%, classification &gt;90%, data production cycle reduced &gt;90%.</span>
+              <span class="lang-zh">独立研发者。Playwright 浏览器自动化 + 多模型并行 AI 核心。ASR 准确率 &gt;95%，分类准确率 &gt;90%，数据生产周期缩短 &gt;90%。</span>
+            </p>
+          </div>
+          <div>
+            <h3><span class="lang-en">Project 2: Novel Information AI Auto-Annotation System</span><span class="lang-zh">项目二：小说信息 AI 自动标注系统</span></h3>
+            <p style="font-size:13px;color:var(--muted)">
+              <span class="lang-en">Lead developer (search engine module). Dual-layer expert agent pipeline. Human-review-friendly output with confidence scores and uncertainty flags.</span>
+              <span class="lang-zh">主要开发者（搜索引擎模块）。双层专家智能体架构。系统输出包含可信度评分与疑问点提示，构建人机协同标注新范式。</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="lang-en">Xiamen Qihuo Network Technology Co., Ltd. · Quantitative Trading Intern</span>
+        <span class="lang-zh">厦门奇获网络科技有限公司 · 量化交易实习生</span>
+        <span class="pill pill-neutral" style="margin-left:auto;flex-shrink:0">
+          <span class="lang-en">Dec 2025 · Xiamen</span>
+          <span class="lang-zh">2025.12 · 厦门</span>
+        </span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted)">
+          <span class="lang-en">Independently refactored a semi-automatic order-execution strategy into a fully automated system with volatility filtering and dynamic long/short signal logic. Conducted multi-contract backtesting and live simulated trading with systematic post-trade analysis. Gained deep insight into the gap between live-trading constraints and backtest results, and into the practical logic of human–AI collaboration within a quantitative team.</span>
+          <span class="lang-zh">独立将半自动下单策略改造为融合波动率筛选与动态多空信号逻辑的全自动系统；进行多品种回测与模拟实盘交易，建立系统化复盘机制。深入理解实盘约束与策略回测结果之间的差异，以及量化团队中人机协同的实践逻辑。</span>
+        </p>
+      </div>
+    </div>
+
+    <hr>
+    <h2><span class="lang-en">Professional Certifications</span><span class="lang-zh">专业资格证书</span></h2>
+    <table>
+      <thead><tr>
+        <th><span class="lang-en">Certification</span><span class="lang-zh">证书名称</span></th>
+        <th><span class="lang-en">Issuing Body</span><span class="lang-zh">颁发机构</span></th>
+        <th><span class="lang-en">Date</span><span class="lang-zh">时间</span></th>
+        <th><span class="lang-en">Status</span><span class="lang-zh">状态</span></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="lang-en">Fund Practitioner Qualification – Securities Investment Fund Fundamentals</span><span class="lang-zh">基金从业人员资格——证券投资基金基础知识</span></td>
+          <td>AMAC</td><td>2025.05.24</td>
+          <td><span class="pill pill-granted" style="font-size:11px"><span class="lang-en">Passed</span><span class="lang-zh">合格</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="lang-en">Fund Practitioner Qualification – Fund Laws, Regulations, Ethics &amp; Business Standards</span><span class="lang-zh">基金从业人员资格——基金法律法规、职业道德与业务规范</span></td>
+          <td>AMAC</td><td>2025.05.24</td>
+          <td><span class="pill pill-granted" style="font-size:11px"><span class="lang-en">Passed</span><span class="lang-zh">合格</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════ AWARDS ══════════════ -->
+  <div id="awards" class="section">
+    <h2><span class="lang-en">Awards &amp; Honours</span><span class="lang-zh">竞赛获奖</span></h2>
+    <table>
+      <thead><tr>
+        <th>#</th>
+        <th><span class="lang-en">Award</span><span class="lang-zh">奖项</span></th>
+        <th><span class="lang-en">Competition / Event</span><span class="lang-zh">赛事</span></th>
+        <th><span class="lang-en">Level</span><span class="lang-zh">级别</span></th>
+        <th><span class="lang-en">Date</span><span class="lang-zh">时间</span></th>
+        <th><span class="lang-en">Team</span><span class="lang-zh">成员</span></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong><span class="lang-en">Second Prize</span><span class="lang-zh">二等奖</span></strong></td>
+          <td><span class="lang-en">1st National AI Application Innovation Competition (Fujian Regional)</span><span class="lang-zh">首届全国人工智能应用创新大赛（福建省赛区）</span></td>
+          <td><span class="lang-en">Provincial</span><span class="lang-zh">省级</span></td>
+          <td>2025.06</td>
+          <td><span class="lang-en">Baiyu Chen, Yi Lin, Jingming Shen</span><span class="lang-zh">陈柏聿、林一、沈景铭</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong><span class="lang-en">First Prize</span><span class="lang-zh">一等奖</span></strong></td>
+          <td><span class="lang-en">2025 National College Student High-Tech Competition – Python Data Analysis Track</span><span class="lang-zh">2025 年全国大学生高新技术竞赛——Python 数据分析赛项</span></td>
+          <td><span class="lang-en">National</span><span class="lang-zh">全国</span></td>
+          <td>2025</td>
+          <td><span class="lang-en">Baiyu Chen</span><span class="lang-zh">陈柏聿</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong><span class="lang-en">B-Level Award</span><span class="lang-zh">B 级</span></strong></td>
+          <td><span class="lang-en">6th China AI Competition – Large Model Hallucination Challenge</span><span class="lang-zh">第六届中国人工智能大赛——大模型幻觉挑战赛</span></td>
+          <td><span class="lang-en">National</span><span class="lang-zh">全国</span></td>
+          <td>2025.12</td>
+          <td><span class="lang-en">MUST Team</span><span class="lang-zh">闽南理工学院代表队</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong><span class="lang-en">First Prize (Undergrad)</span><span class="lang-zh">本科组一等奖</span></strong></td>
+          <td><span class="lang-en">2025 "Innovation Cup" College Student Big Data Challenge</span><span class="lang-zh">2025 年"创新杯"大学生大数据挑战赛</span></td>
+          <td><span class="lang-en">National</span><span class="lang-zh">全国</span></td>
+          <td>2025.08</td>
+          <td><span class="lang-en">Baiyu Chen, Yuxin Zhong, Xinye Huang</span><span class="lang-zh">陈柏聿、钟雨欣、黄新页</span></td>
+        </tr>
+        <tr style="background:rgba(79,142,247,.05)">
+          <td>5</td>
+          <td><strong><span class="lang-en">First Prize (Undergrad)</span><span class="lang-zh">本科组一等奖</span></strong></td>
+          <td><span class="lang-en">2025 APMCM Asia-Pacific Mathematical Modelling Competition</span><span class="lang-zh">2025 年 APMCM 亚太地区大学生数学建模竞赛</span></td>
+          <td><span class="pill pill-info" style="font-size:11px"><span class="lang-en">International</span><span class="lang-zh">国际</span></span></td>
+          <td>2025.06</td>
+          <td><span class="lang-en">Jingming Shen, Baiyu Chen, Xinye Huang</span><span class="lang-zh">沈景铭、陈柏聿、黄新页</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong><span class="lang-en">First Prize</span><span class="lang-zh">一等奖</span></strong></td>
+          <td><span class="lang-en">12th Cross-Strait &amp; HK-Macao Vocational Skills Competition – Futures Investment Simulation</span><span class="lang-zh">第十二届海峡两岸暨港澳大学生职业技能大赛——期货投资模拟赛</span></td>
+          <td><span class="lang-en">Cross-Strait</span><span class="lang-zh">两岸四地</span></td>
+          <td>2025</td>
+          <td><span class="lang-en">Baiyu Chen, Wenhui Huang, Minhong Wu</span><span class="lang-zh">陈柏聿、黄文辉、吴敏虹</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout" style="margin-top:14px">
+      <span class="lang-en">Award #5 (APMCM) is an international competition covering Asia-Pacific universities. Award #6 covers universities across Mainland China, Taiwan, Hong Kong, and Macao.</span>
+      <span class="lang-zh">第 5 项（APMCM）为覆盖亚太地区高校的国际级竞赛。第 6 项覆盖中国大陆、台湾、香港及澳门地区高校。</span>
+    </div>
+
+    <hr style="margin-top:28px">
+    <h2><span class="lang-en">Selected Technical Highlights</span><span class="lang-zh">代表性竞赛技术亮点</span></h2>
+
+    <!-- Award #1 -->
+    <div class="card">
+      <div class="card-header">
+        <span>
+          <span class="pill pill-pending" style="font-size:11px;margin-right:8px"><span class="lang-en">Provincial · Second Prize</span><span class="lang-zh">省级二等奖</span></span>
+          <span class="lang-en">#1 · 1st National AI Application Innovation Competition — Multi-Source Stock Investment Strategy Agent</span>
+          <span class="lang-zh">#1 · 首届全国人工智能应用创新大赛——面向多源异构数据的上市公司股票投资策略分析</span>
+        </span>
+        <span class="pill pill-info" style="white-space:nowrap;flex-shrink:0"><span class="lang-en">Deployed</span><span class="lang-zh">已上线</span></span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <span class="lang-en">Designed and deployed a full-stack personalised stock-investment advisory Agent combining <strong>Computer Science × Finance × Psychology</strong>. Quantifies behavioural biases (overconfidence, loss aversion) as real-time emotional signals. Data sources: Sina Finance API · Eastmoney · Weibo sentiment · Baidu AI Search MCP · CSMAR database. Deployed on Baidu Qianfan AppBuilder as a production AI-native app.</span>
+          <span class="lang-zh">设计并上线全栈个性化股票投资策略智能体，融合<strong>计算机科学 × 金融工程 × 心理学</strong>三学科视角，将过度自信、损失厌恶等行为偏差量化为实时情绪信号。数据源：新浪财经 API · 东方财富 · 微博舆情 · 百度 AI 搜索 MCP · 国泰安数据库。已在百度智能云千帆 AppBuilder 上线投入使用。</span>
+        </p>
+        <div class="two-col" style="margin-bottom:12px;gap:12px">
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px"><span class="lang-en">4-Dimension Analysis Framework → MoE</span><span class="lang-zh">四维分析框架 → 混合专家模型（MoE）</span></p>
+            <div class="tags" style="margin-bottom:6px">
+              <span class="tag" style="font-size:11px"><span class="lang-en">Fundamentals</span><span class="lang-zh">基本面</span></span>
+              <span class="tag" style="font-size:11px"><span class="lang-en">Sentiment</span><span class="lang-zh">情绪分析</span></span>
+              <span class="tag" style="font-size:11px"><span class="lang-en">News / Macro</span><span class="lang-zh">新闻宏观</span></span>
+              <span class="tag" style="font-size:11px"><span class="lang-en">Technical</span><span class="lang-zh">技术指标</span></span>
+            </div>
+            <p style="font-size:12px;color:var(--muted)"><span class="lang-en">All four streams fed into a unified feature pipeline → MoE model → dynamic-weight recommendation.</span><span class="lang-zh">四路数据统一进入特征工程管道 → MoE 模型 → 动态权重综合推荐。</span></p>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px"><span class="lang-en">6-Dimension User Profile → Personalised Strategy</span><span class="lang-zh">6 维度用户画像 → 个性化策略匹配</span></p>
+            <div class="tags" style="margin-bottom:6px">
+              <span class="tag" style="font-size:11px"><span class="lang-en">Risk Tolerance</span><span class="lang-zh">风险承受力</span></span>
+              <span class="tag" style="font-size:11px"><span class="lang-en">Experience</span><span class="lang-zh">投资经验</span></span>
+              <span class="tag" style="font-size:11px"><span class="lang-en">Goals · Horizon</span><span class="lang-zh">目标 · 期限</span></span>
+              <span class="tag" style="font-size:11px"><span class="lang-en">Style · Capital</span><span class="lang-zh">风格 · 资金</span></span>
+            </div>
+            <p style="font-size:12px;color:var(--muted)"><span class="lang-en">Conservative → low-volatility blue chips; Aggressive → high-growth sector stocks. Macro → industry → stock 3-tier analysis.</span><span class="lang-zh">保守型 → 低波动蓝筹；激进型 → 高成长赛道。宏观 → 行业 → 个股三层分析链路。</span></p>
+          </div>
+        </div>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag">MoE · RAG</span>
+          <span class="tag"><span class="lang-en">User Profiling</span><span class="lang-zh">用户画像</span></span>
+          <span class="tag"><span class="lang-en">Sentiment Analysis</span><span class="lang-zh">情绪分析</span></span>
+          <span class="tag"><span class="lang-en">Behavioural Finance</span><span class="lang-zh">行为金融</span></span>
+          <span class="tag">multilingual-embedding</span>
+          <span class="tag"><span class="lang-en">Baidu AppBuilder</span><span class="lang-zh">千帆 AppBuilder</span></span>
+          <span class="tag"><span class="lang-en">CS × Finance × Psychology</span><span class="lang-zh">计算机×金融×心理学</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Award #2 -->
+    <div class="card">
+      <div class="card-header">
+        <span>
+          <span class="pill pill-granted" style="font-size:11px;margin-right:8px"><span class="lang-en">National · First Prize</span><span class="lang-zh">全国一等奖</span></span>
+          <span class="lang-en">#2 · Python Data Analysis — B2B Sales Multi-Dimensional Analysis &amp; Optimisation Model</span>
+          <span class="lang-zh">#2 · Python 数据分析赛项——基于 B2B 销售数据的多维度分析与优化模型研究</span>
+        </span>
+        <span class="pill pill-info" style="white-space:nowrap;flex-shrink:0"><span class="lang-en">Solo</span><span class="lang-zh">个人参赛</span></span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <span class="lang-en">Constructed a comprehensive quantitative analysis framework on B2B software-sales data, covering sales funnel efficiency, opportunity prioritisation, customer lifetime value, and win-rate prediction.</span>
+          <span class="lang-zh">基于 B2B 软件服务公司销售数据，构建涵盖销售漏斗效率、商机优先级评估、客户生命周期价值与赢单概率预测的综合定量分析框架。</span>
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+          <div class="stat"><div class="value" style="font-size:17px;color:var(--warning)">58.1%</div><div class="label"><span class="lang-en">Key funnel bottleneck (Intent→Commit)</span><span class="lang-zh">关键漏斗瓶颈转化率（意向→投入）</span></div></div>
+          <div class="stat"><div class="value" style="font-size:17px">0.1506</div><div class="label"><span class="lang-en">Decision-maker support — top win-rate driver</span><span class="lang-zh">决策者支持度 — 赢单率首要影响因子</span></div></div>
+          <div class="stat"><div class="value" style="font-size:17px;color:var(--success)">7.03%</div><div class="label"><span class="lang-en">High-value customers → 13.84% of total value</span><span class="lang-zh">高价值客户占比 → 贡献 13.84% 总价值</span></div></div>
+        </div>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag"><span class="lang-en">Sales Funnel Analysis</span><span class="lang-zh">销售漏斗分析</span></span>
+          <span class="tag"><span class="lang-en">Customer Lifetime Value</span><span class="lang-zh">客户生命周期价值</span></span>
+          <span class="tag"><span class="lang-en">3D Scoring Priority Model</span><span class="lang-zh">三维评分优先级模型</span></span>
+          <span class="tag">SHAP · Feature Importance</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Award #3 -->
+    <div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <span>
+          <span class="pill pill-pending" style="font-size:11px;margin-right:8px"><span class="lang-en">National · B-Level</span><span class="lang-zh">全国 B 级</span></span>
+          <span class="lang-en">#3 · 6th China AI Competition — Large Model Hallucination Challenge</span>
+          <span class="lang-zh">#3 · 第六届中国人工智能大赛——大模型幻觉挑战赛</span>
+        </span>
+        <span class="pill pill-info" style="white-space:nowrap;flex-shrink:0">Phase 7</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <span class="lang-en">Designed and implemented a competitive LLM hallucination detection &amp; mitigation system through 7 major architectural iterations. Core innovation: replaced 5 domain experts with <strong>12 task-type experts</strong> (translation · code generation · knowledge QA · reasoning · problem solving, etc.) plus a meta-expert router — enabling finer-grained, task-aware hallucination control. Dual API failover: DeepSeek (primary) + Qwen3-480B (backup).</span>
+          <span class="lang-zh">经过 7 次主要架构迭代，设计并实现竞赛级 LLM 幻觉检测与缓解系统。核心创新：将 5 个领域专家替换为 <strong>12 个任务型专家</strong>（翻译·代码生成·知识问答·逻辑推理·问题求解等）+ 元专家路由器，实现更细粒度的任务感知幻觉控制。双 API 容错：DeepSeek（主）+ Qwen3-480B（备）。</span>
+        </p>
+        <div class="two-col" style="margin-bottom:12px;gap:12px">
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px"><span class="lang-en">Tiered Hallucination Detection (per task)</span><span class="lang-zh">按任务类型的分级幻觉检测策略</span></p>
+            <div class="tags" style="margin-bottom:0">
+              <span class="tag" style="font-size:11px">FORMAT</span>
+              <span class="tag" style="font-size:11px">SYNTAX</span>
+              <span class="tag" style="font-size:11px">FAITHFULNESS</span>
+              <span class="tag" style="font-size:11px">LOGICAL</span>
+              <span class="tag" style="font-size:11px">FACTUAL</span>
+              <span class="tag" style="font-size:11px">FULL</span>
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin-top:6px"><span class="lang-en">Lightweight tasks (translation, extraction) use FORMAT-only; high-uncertainty tasks (knowledge QA) activate FULL pipeline with second-model verification — reducing unnecessary compute.</span><span class="lang-zh">轻量任务（翻译、信息抽取）仅走 FORMAT；高不确定性任务（知识问答）激活 FULL 流程并启用第二模型验证，显著节省算力。</span></p>
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px"><span class="lang-en">Task-Adaptive DeepConf Multi-Round Budgets</span><span class="lang-zh">任务自适应 DeepConf 多轮预算</span></p>
+            <table class="meta-table" style="font-size:12px">
+              <tr><td><span class="lang-en">Translation / Extraction</span><span class="lang-zh">翻译 / 信息抽取</span></td><td><strong>1</strong> <span style="color:var(--muted)">round</span></td></tr>
+              <tr><td><span class="lang-en">Classification / Computation</span><span class="lang-zh">分类 / 计算</span></td><td><strong>2</strong> <span style="color:var(--muted)">rounds</span></td></tr>
+              <tr><td><span class="lang-en">Reasoning / Problem Solving</span><span class="lang-zh">逻辑推理 / 问题求解</span></td><td><strong>3–4</strong> <span style="color:var(--muted)">rounds</span></td></tr>
+              <tr><td><span class="lang-en">Knowledge QA (highest uncertainty)</span><span class="lang-zh">知识问答（最高不确定性）</span></td><td><strong style="color:var(--warning)">5</strong> <span style="color:var(--muted)">rounds</span></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag"><span class="lang-en">12 Task-Type Experts</span><span class="lang-zh">12 任务型专家</span></span>
+          <span class="tag"><span class="lang-en">Meta-Expert Router</span><span class="lang-zh">元专家路由</span></span>
+          <span class="tag"><span class="lang-en">Tiered Hallucination Detection</span><span class="lang-zh">分级幻觉检测</span></span>
+          <span class="tag"><span class="lang-en">Multi-Trace Consensus</span><span class="lang-zh">多轨迹共识分析</span></span>
+          <span class="tag">DeepSeek · Qwen3-480B</span>
+          <span class="tag"><span class="lang-en">Dual API Failover</span><span class="lang-zh">双 API 容错</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Award #4 -->
+    <div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <span>
+          <span class="pill pill-granted" style="font-size:11px;margin-right:8px"><span class="lang-en">National · First Prize</span><span class="lang-zh">全国一等奖（本科组）</span></span>
+          <span class="lang-en">#4 · "Innovation Cup" Big Data — Road Maintenance Prediction &amp; Intelligent Decision System</span>
+          <span class="lang-zh">#4 · "创新杯"大数据挑战赛——道路路面维护预测与智能决策系统</span>
+        </span>
+        <span class="pill pill-info" style="white-space:nowrap;flex-shrink:0"><span class="lang-en">Team Leader</span><span class="lang-zh">队长</span></span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <span class="lang-en">Built a complete "prediction → feature fusion → optimisation → Agent" pipeline on ~100,000 road segment records. <strong>Stage 1 Prediction</strong>: TabNet (sequential attention, 99.99%) + custom DRGANDRNELM / LTCNBLS / TCAETCNResNet hybrid (99.85%) + DNN+SHAP. <strong>Stage 2 Feature Fusion</strong>: RLHF-based dual-weight fusion reconciles conflicting TabNet and SHAP importance rankings by simulating human preference — producing a more robust feature priority list. <strong>Stage 3 Optimisation</strong>: quantum annealing → HCAOA (budget-aware initialisation + adaptive threshold + multi-strategy local search). <strong>Stage 4 Agent</strong>: RAG knowledge base (road history data) + full-stack LLM chatbot for real-time maintenance advisory.</span>
+          <span class="lang-zh">在约 10 万条路段记录上构建"预测 → 特征融合 → 优化 → 智能体"完整流水线。<strong>预测层</strong>：TabNet（顺序注意力机制，99.99%）+ 定制 DRGANDRNELM/LTCNBLS/TCAETCNResNet 混合架构（99.85%）+ DNN+SHAP。<strong>特征融合层</strong>：RLHF 双权重融合机制——模拟人类偏好，调和 TabNet 与 SHAP 特征重要性冲突，输出更鲁棒的特征优先级排名。<strong>优化层</strong>：量子退火 → HCAOA（预算感知初始化 + 自适应阈值 + 多策略局部搜索）。<strong>智能体层</strong>：RAG 路面历史知识库 + 全栈 LLM 实时维护顾问 Agent。</span>
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px">
+          <div class="stat"><div class="value" style="font-size:17px;color:var(--success)">99.99%</div><div class="label"><span class="lang-en">TabNet accuracy</span><span class="lang-zh">TabNet 准确率</span></div></div>
+          <div class="stat"><div class="value" style="font-size:17px">99.85%</div><div class="label"><span class="lang-en">Hybrid arch. accuracy</span><span class="lang-zh">混合架构准确率</span></div></div>
+          <div class="stat"><div class="value" style="font-size:17px;color:var(--accent)">3.23×</div><div class="label"><span class="lang-en">HCAOA vs quantum annealing (1.28×)</span><span class="lang-zh">HCAOA 成本效益比（量子退火 1.28×）</span></div></div>
+          <div class="stat"><div class="value" style="font-size:17px">100%</div><div class="label"><span class="lang-en">Budget utilisation</span><span class="lang-zh">预算利用率</span></div></div>
+        </div>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag">TabNet · SHAP</span>
+          <span class="tag">RLHF <span class="lang-en">Dual-Weight Fusion</span><span class="lang-zh">双权重融合</span></span>
+          <span class="tag"><span class="lang-en">Quantum Annealing</span><span class="lang-zh">量子退火</span></span>
+          <span class="tag">HCAOA</span>
+          <span class="tag">RAG · Agent</span>
+          <span class="tag">NP-hard <span class="lang-en">Combinatorial Opt.</span><span class="lang-zh">组合优化</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Award #5 -->
+    <div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <span>
+          <span class="pill pill-info" style="font-size:11px;margin-right:8px"><span class="lang-en">International · First Prize</span><span class="lang-zh">国际一等奖（本科组）</span></span>
+          <span class="lang-en">#5 · APMCM Asia-Pacific Mathematical Modelling — Kidney Stone Risk Prediction</span>
+          <span class="lang-zh">#5 · APMCM 亚太数学建模竞赛——基于集成学习的肾结石风险预测</span>
+        </span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <span class="lang-en">Constructed a multi-layer ensemble prediction framework on physical-examination biochemical data. Identified key urinary biomarkers (specific gravity, pH, osmolality, etc.) via modified Z-score outlier detection, Spearman rank correlation, and SHAP analysis. Compared four algorithms — automated deep forest, Bayesian network, Gaussian process classifier, and TabNet — with cross-validation optimisation.</span>
+          <span class="lang-zh">基于体检尿液生化指标数据，构建多层次集成预测框架。通过修正 Z-Score 异常值处理、Spearman 秩相关与 SHAP 值分析，识别与肾结石高度相关的关键生理指标（尿比重、pH、渗透压等）。比较自动化深度森林、贝叶斯网络、高斯过程分类器与 TabNet 四种算法，交叉验证优化模型参数。</span>
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px">
+          <div class="stat"><div class="value" style="font-size:17px;color:var(--success)">≥0.70</div><div class="label"><span class="lang-en">Mean F1 score across models</span><span class="lang-zh">各模型平均 F1 值</span></div></div>
+          <div class="stat"><div class="value" style="font-size:17px">15</div><div class="label"><span class="lang-en">Key predictive features identified (TabNet)</span><span class="lang-zh">TabNet 自动识别的关键预测特征数</span></div></div>
+        </div>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag">TabNet</span>
+          <span class="tag"><span class="lang-en">Deep Forest</span><span class="lang-zh">深度森林</span></span>
+          <span class="tag"><span class="lang-en">Bayesian Network</span><span class="lang-zh">贝叶斯网络</span></span>
+          <span class="tag">SHAP · Spearman</span>
+          <span class="tag"><span class="lang-en">Medical AI</span><span class="lang-zh">医疗 AI</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Award #6 -->
+    <div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <span>
+          <span class="pill pill-granted" style="font-size:11px;margin-right:8px"><span class="lang-en">Cross-Strait · First Prize</span><span class="lang-zh">两岸四地一等奖</span></span>
+          <span class="lang-en">#6 · Cross-Strait Futures Investment Simulation — DeepSeek Agent-Driven Trading Strategy</span>
+          <span class="lang-zh">#6 · 海峡两岸期货投资模拟赛——DeepSeek 智能体驱动的量化期货交易策略</span>
+        </span>
+        <span class="pill pill-info" style="white-space:nowrap;flex-shrink:0"><span class="lang-en">Team Leader</span><span class="lang-zh">队长</span></span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+          <span class="lang-en">Designed and led implementation of a DeepSeek LLM-driven futures trading strategy. Market state is formatted as structured prompts integrating multi-dimensional technical indicators (RSI, MACD, Bollinger Bands + novel academic indicators GVR, GDMA, DoMA) across three timeframes (30 min / 1 h / 4 h); DeepSeek generates trade direction, confidence, target price, and stop-loss. Strict 1:2 risk-reward ratio with multi-layer risk controls (max position 25%, min holding time, frequency limits).</span>
+          <span class="lang-zh">主导设计并实现 DeepSeek 大语言模型驱动的期货交易策略。将多维度技术指标（RSI、MACD、布林带 + 前沿学术指标 GVR、GDMA、DoMA）整合为结构化提示词，跨三个时间周期（30 分钟 / 1 小时 / 4 小时）验证后输入 DeepSeek，由模型生成含方向、置信度、目标价与止损价的决策信号。严格执行 1:2 风险收益比，配备多层次风控机制（最大仓位 25%、最小持仓时间、交易频率限制）。</span>
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+          <div class="stat"><div class="value" style="font-size:17px;color:var(--success)">229.41%</div><div class="label"><span class="lang-en">Backtest cumulative return</span><span class="lang-zh">回测累计收益率</span></div></div>
+          <div class="stat"><div class="value" style="font-size:17px;color:var(--accent)">1402%</div><div class="label"><span class="lang-en">Annualised return</span><span class="lang-zh">年化收益率</span></div></div>
+          <div class="stat"><div class="value" style="font-size:17px">23</div><div class="label"><span class="lang-en">Sharpe Ratio</span><span class="lang-zh">夏普比率</span></div></div>
+        </div>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag">DeepSeek LLM</span>
+          <span class="tag"><span class="lang-en">Prompt Engineering</span><span class="lang-zh">提示词工程</span></span>
+          <span class="tag"><span class="lang-en">Multi-Timeframe Analysis</span><span class="lang-zh">多周期技术分析</span></span>
+          <span class="tag">RSI · MACD · GVR · GDMA</span>
+          <span class="tag"><span class="lang-en">Risk Management</span><span class="lang-zh">风险控制</span></span>
+          <span class="tag"><span class="lang-en">Quantitative Trading</span><span class="lang-zh">量化交易</span></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ SKILLS (collapsible) ══════════════ -->
+  <details class="skills-details">
+    <summary>
+      <span class="lang-en">Technical Skills</span>
+      <span class="lang-zh">技术能力</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;margin-left:6px;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+    </summary>
+    <div style="padding:20px 0 4px;display:flex;flex-direction:column;gap:18px">
+
+      <!-- Group 1: Core research direction -->
+      <div class="skill-group">
+        <h3><span class="lang-en">LLM Hallucination Research &amp; AI Governance</span><span class="lang-zh">大语言模型幻觉研究与 AI 治理</span></h3>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag"><span class="lang-en">Hallucination Evaluation</span><span class="lang-zh">幻觉评估</span></span>
+          <span class="tag"><span class="lang-en">Hallucination Mitigation</span><span class="lang-zh">幻觉缓解</span></span>
+          <span class="tag"><span class="lang-en">Tiered Hallucination Detection</span><span class="lang-zh">分级幻觉检测</span></span>
+          <span class="tag"><span class="lang-en">Multi-Trace Consensus Analysis</span><span class="lang-zh">多轨迹共识分析</span></span>
+          <span class="tag"><span class="lang-en">Structured Confidence Reasoning</span><span class="lang-zh">结构化置信度推理</span></span>
+          <span class="tag">RAG</span>
+          <span class="tag"><span class="lang-en">Multi-Agent Systems</span><span class="lang-zh">多智能体系统</span></span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag"><span class="lang-en">LLM Evaluation</span><span class="lang-zh">LLM 评估</span></span>
+          <span class="tag">MoE</span>
+          <span class="tag">LoRA <span class="lang-en">Fine-Tuning</span><span class="lang-zh">微调</span></span>
+          <span class="tag"><span class="lang-en">AI Safety Standards (AIIA)</span><span class="lang-zh">AI 安全标准（AIIA）</span></span>
+        </div>
+      </div>
+
+      <!-- Group 2: ML foundations -->
+      <div class="skill-group">
+        <h3><span class="lang-en">Machine Learning &amp; Data Science</span><span class="lang-zh">机器学习与数据科学</span></h3>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag">PyTorch</span>
+          <span class="tag">TabNet</span>
+          <span class="tag">XGBoost</span>
+          <span class="tag">SHAP</span>
+          <span class="tag"><span class="lang-en">Ensemble Learning</span><span class="lang-zh">集成学习</span></span>
+          <span class="tag">RLHF</span>
+          <span class="tag">DRL · PPO</span>
+          <span class="tag"><span class="lang-en">Feature Engineering</span><span class="lang-zh">特征工程</span></span>
+          <span class="tag"><span class="lang-en">Time-Series Analysis</span><span class="lang-zh">时间序列分析</span></span>
+          <span class="tag"><span class="lang-en">Semi-Supervised Learning</span><span class="lang-zh">半监督学习</span></span>
+        </div>
+      </div>
+
+      <!-- Group 3: Engineering -->
+      <div class="skill-group">
+        <h3><span class="lang-en">Engineering &amp; Implementation</span><span class="lang-zh">工程实现</span></h3>
+        <div class="tags" style="margin-bottom:0">
+          <span class="tag">Python (Async)</span>
+          <span class="tag">Playwright <span class="lang-en">Automation</span><span class="lang-zh">自动化</span></span>
+          <span class="tag"><span class="lang-en">LLM Agent Development</span><span class="lang-zh">LLM Agent 开发</span></span>
+          <span class="tag"><span class="lang-en">Multi-Model AI Pipeline</span><span class="lang-zh">多模型 AI 流水线</span></span>
+          <span class="tag"><span class="lang-en">Quantitative Strategy Dev</span><span class="lang-zh">量化策略开发</span></span>
+          <span class="tag">RegTech · FinTech</span>
+        </div>
+      </div>
+
+    </div>
+  </details>
+
+  <footer>
+    <span class="lang-en">Last updated: May 2026 &nbsp;·&nbsp; Chen Baiyu · 陈柏聿 &nbsp;·&nbsp; <a href="https://orcid.org/0009-0003-7841-3112" target="_blank">ORCID</a></span>
+    <span class="lang-zh">更新时间：2026 年 5 月 &nbsp;·&nbsp; 陈柏聿 · Chen Baiyu &nbsp;·&nbsp; <a href="https://orcid.org/0009-0003-7841-3112" target="_blank">ORCID</a></span>
+  </footer>
+
+</div>
+
+<script>
+  // ── Tab navigation ──
+  document.getElementById('main-nav').addEventListener('click', function(e) {
+    const btn = e.target.closest('button[data-section]');
+    if (!btn) return;
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+    document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(btn.dataset.section).classList.add('visible');
+    btn.classList.add('active');
+  });
+
+  // ── Tab switcher (used by Overview Details buttons) ──
+  function switchTab(sectionId) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+    document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(sectionId).classList.add('visible');
+    const btn = document.querySelector('#main-nav button[data-section="' + sectionId + '"]');
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Language toggle ──
+  function toggleLang(btn) {
+    document.body.classList.toggle('zh');
+    const isZh = document.body.classList.contains('zh');
+    document.documentElement.setAttribute('lang', isZh ? 'zh' : 'en');
+    document.title = isZh ? '陈柏聿 · 学术简历' : 'Baiyu Chen · Academic CV';
+  }
+
+  // ── Theme toggle ──
+  function toggleTheme() {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    localStorage.setItem('cv-theme', isLight ? 'light' : 'dark');
+  }
+
+  // Restore saved theme on load (default: light / day mode)
+  (function() {
+    if (localStorage.getItem('cv-theme') === 'dark') {
+      document.body.classList.remove('light');
+    }
+  })();
+</script>
+</body>
+</html>
